@@ -18,8 +18,10 @@
   "homepage": "https://github.com/ridwanfirdaus96/Aplikasi-Chat-RRI-NodeJS-MongoDB#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "dependable": "^1.1.0",
     "ejs": "^2.6.1",
     "express": "^4.16.3",
-    "i": "^0.3.6"
+    "i": "^0.3.6",
+    "lodash": "^4.17.11"
   }
 }
