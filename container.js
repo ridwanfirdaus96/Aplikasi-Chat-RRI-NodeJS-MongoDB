@@ -3,7 +3,8 @@ const path = require('path');
 
 const container = dependable.container();
 const simpleDependencies = [
-    ['_', 'lodash']
+    ['_', 'lodash'],
+    ['mongoose','mongoose']
     // ['async', 'async']
 ];
 

@@ -6,13 +6,16 @@
  const cookieParser = require('cookie-parser');
  const session = require('express-session');
  const MongoStore = require('connect-mongo')(session);
- const flash = require('flash');
+ const flash = require('connect-flash');
+ const passport = require('passport');
+ const mongoose = require('mongoose');
+ const ExpressValidator = require('express-validator');
 
 
  container.resolve(function(users) {
 
     mongoose.Promise = global.Promise;
-    mongoose.connect('mongodb://localhost/heroku', {useMongoClient: true});
+    mongoose.connect('mongodb://localhost/heroku', {useNewUrlParser: true});
 
     const app = SetupExpress();
 
@@ -38,15 +41,18 @@
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({extended: true}));
 
-        app.use(validatot());
+        app.use(ExpressValidator());
         app.use(session({
             secret: 'thisisasecretkey',
             resave: 'true',
+            proxy: true,
             saveInitialized : true,
             store: new MongoStore({mongooseConnection: mongoose.connection})
-        }))
+        }));
 
         app.use(flash());
+        app.use(passport.initialize());
+        app.use(passport.session());
     }
  });
 
