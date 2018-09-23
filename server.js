@@ -10,9 +10,9 @@
  const passport = require('passport');
  const mongoose = require('mongoose');
  const ExpressValidator = require('express-validator');
+ 
 
-
- container.resolve(function(users) {
+ container.resolve(function(users, _) {
 
     mongoose.Promise = global.Promise;
     mongoose.connect('mongodb://localhost/heroku', {useNewUrlParser: true});
@@ -35,6 +35,7 @@
     }
 
     function ConfigureExpress(app){
+        require('./passport/passport-local');
         app.use(express.static('public'));
         app.use(cookieParser());
         app.set('view engine', 'ejs');
@@ -44,15 +45,16 @@
         app.use(ExpressValidator());
         app.use(session({
             secret: 'thisisasecretkey',
-            resave: 'true',
+            resave: false,
             proxy: true,
-            saveInitialized : true,
+            saveInitialized : false,
             store: new MongoStore({mongooseConnection: mongoose.connection})
         }));
 
         app.use(flash());
         app.use(passport.initialize());
         app.use(passport.session());
+        app.locals._ = _;
     }
  });
 
