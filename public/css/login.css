@@ -236,8 +236,25 @@ footer .container .text-muted {
 }
 
 .btn-facebook:active, .btn-facebook:hover {
-    background: #4aa1f3;
+    background: #175fa3;
     color: #fff;
 }
 
+.btn-gplus{
+    background: #e44b34;
+    border-radius: 0;
+    color: #fff;
+    width:  100px;
+}
+
+.btn-gplus:link, .btn-gplus:visited{
+    color: #fff;
+    text-decoration: none;
+    background: #e44b34;
+}
+
+.btn-gplus:active, .btn-gplus:hover {
+    background: #7e2910;
+    color: #fff;
+}
 
