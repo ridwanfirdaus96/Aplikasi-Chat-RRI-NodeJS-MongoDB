@@ -30,14 +30,14 @@ passport.use(new FacebookStrategy({
         if(user){
             return done(null, user);
         }else{
-            const newUSer = new User();
-            newUSer.facebook = profile.id;
-            newUSer.fullname = profile.displayName;
-            newUSer.email = profile._json.email;
-            newUSer.userImage = 'https://graph.facebook.com/'+profile.id+'/picture?type=large';
-            newUSer.fbTokens.push({token:token});
+            const newUser = new User();
+            newUser.facebook = profile.id;
+            newUser.fullname = profile.displayName;
+            newUser.email = profile._json.email;
+            newUser.userImage = 'https://graph.facebook.com/'+profile.id+'/picture?type=large';
+            newUser.fbTokens.push({token:token});
             
-            newUSer.save((err) => {
+            newUser.save((err) => {
                 return done(null, user);
             })
         }
