@@ -10,9 +10,10 @@
  const passport = require('passport');
  const mongoose = require('mongoose');
  const ExpressValidator = require('express-validator');
- 
+ const socketIO = require('socket.io');
 
- container.resolve(function(users, _) {
+
+ container.resolve(function(users, _, admin, home, group) {
 
     mongoose.Promise = global.Promise;
     mongoose.connect('mongodb://localhost/heroku', {useNewUrlParser: true});
@@ -22,15 +23,21 @@
     function SetupExpress(){
         const app = express();
         const server = http.createServer(app);
+        const io = socketIO(server);
         server.listen(3000, function(){
             console.log('listening on port 3000');
         });
         ConfigureExpress(app);
 
+        require('./socket/groupchat')(io);
+
                 // setup router
         const router = require('express-promise-router')();
         users.SetRouting(router);
-
+        admin.SetRouting(router);
+        home.SetRouting(router);
+        group.SetRouting(router);
+        
         app.use(router);
     }
 
@@ -39,6 +46,7 @@
         require('./passport/passport-facebook');
         require('./passport/passport-google');
         
+
         app.use(express.static('public'));
         app.use(cookieParser());
         app.set('view engine', 'ejs');
@@ -50,9 +58,9 @@
             secret: 'thisisasecretkey',
             resave: false,
             proxy: true,
-            saveInitialized : false,
+            saveUninitialized : false,
             store: new MongoStore({mongooseConnection: mongoose.connection})
-        }));
+        })); 
 
         app.use(flash());
         app.use(passport.initialize());
