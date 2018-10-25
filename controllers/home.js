@@ -34,7 +34,7 @@ module.exports = function (async, Studio, _) {
                 }
                 const roleSort = _.sortBy(res2, '_id');
 
-                res.render('home', {title: 'rri-chat - Home', data: dataChunk, role: roleSort});
+                res.render('home', {title: 'rri-chat - Home', user:req.user, data: dataChunk, role: roleSort});
             })
         }
     }

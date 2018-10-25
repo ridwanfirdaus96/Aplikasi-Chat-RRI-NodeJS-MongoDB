@@ -1,10 +1,18 @@
-module.exports = function(io){
+module.exports = function(io, Users){
+
+    const users = new Users();
+    //var users = [];
     io.on('connection', (socket) => {
         console.log('User Connected');
 
         socket.on('join', (params, callback)=> {
             socket.join(params.room);
-
+            // users.push(params.name);
+            // users.push(params.room);
+            // users.push(socket.id);
+            users.AddUserData(socket.id, params.name, params.room);
+            io.to(params.room).emit('userList', users.GetUserList(params.room));
+            //console.log(users);
             callback();
         });
 
@@ -18,6 +26,14 @@ module.exports = function(io){
 
             callback();
         });
+
+        socket.on('disconnect', () => {
+            var user = users.RemoveUser(socket.id);
+
+            if(user){
+                io.to(user.room).emit('userlist', users.GetUserList(user.room));
+            }
+        })
     });
 
     

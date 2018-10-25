@@ -11,6 +11,7 @@
  const mongoose = require('mongoose');
  const ExpressValidator = require('express-validator');
  const socketIO = require('socket.io');
+ const {Users} = require('./helpers/UsersClass');
 
 
  container.resolve(function(users, _, admin, home, group) {
@@ -29,8 +30,9 @@
         });
         ConfigureExpress(app);
 
-        require('./socket/groupchat')(io);
-
+        require('./socket/groupchat')(io, Users);
+        require('./socket/friend')(io);
+      
                 // setup router
         const router = require('express-promise-router')();
         users.SetRouting(router);
@@ -56,9 +58,9 @@
         app.use(ExpressValidator());
         app.use(session({
             secret: 'thisisasecretkey',
-            resave: false,
+            resave: true,
             proxy: true,
-            saveUninitialized : false,
+            saveUninitialized : true,
             store: new MongoStore({mongooseConnection: mongoose.connection})
         })); 
 

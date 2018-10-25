@@ -10,7 +10,19 @@ const userSchema = mongoose.Schema({
     userImage: {type: String, default: 'default.png'},
     facebook : {type: String, default: ''},
     fbTokens : Array,
-    google   : {type: String, default: ''}
+    google   : {type: String, default: ''},
+    sentRequest: [{
+        username: {type: String, default: ''}
+    }],
+    request: [{
+        userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+        username: {type: String, default: ''}
+    }],
+    friendList: [{
+        frientId: {type:mongoose.Schema.Types.ObjectId, ref: 'User'},
+        friendName: {type: String, default: ''}
+    }],
+    totalRequest: {type: Number, default: 0}
 });
 
 // encrypt password

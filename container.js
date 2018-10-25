@@ -8,6 +8,7 @@ const simpleDependencies = [
     ['formidable', 'formidable'],
     ['async','async'],
     ['Studio','./models/studios'],
+    ['Users', './models/user'],
     ['aws','./helpers/AWSUpload']
     //['mongoose','mongoose']
     // ['async', 'async']
